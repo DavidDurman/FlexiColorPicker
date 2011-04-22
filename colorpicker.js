@@ -5,7 +5,7 @@
 (function(window, document, undefined) {
 
     var type = (window.SVGAngle || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") ? "SVG" : "VML"),
-        picker, slide, hueOffset = 15;
+        picker, slide, hueOffset = 15, svgNS = 'http://www.w3.org/2000/svg';
 
     /**
      * Return mouse position relative to the element el.
@@ -44,75 +44,69 @@
         return { x: offsetX, y: offsetY };
     }
 
-    var gradients = {
-        hsv: [
-            { offset: '100%', color: '#FF0000', opacity: '1' },
-            { offset: '88%', color: '#FFFF00', opacity: '1' },
-            { offset: '75%', color: '#0BED00', opacity: '1' },
-            { offset: '63%', color: '#00FF40', opacity: '1' },
-            { offset: '50%', color: '#00FFFF', opacity: '1' },
-            { offset: '38%', color: '#0040FF', opacity: '1' },
-            { offset: '25%', color: '#8000FF', opacity: '1' },
-            { offset: '13%', color: '#FF00FF', opacity: '1' },
-            { offset: '0%', color: '#FF0000', opacity: '1' }
-        ],
-        black: [
-            { offset: '100%', color: '#CC9A81', opacity: '0' },
-            { offset: '0%', color: '#000000', opacity: '1' }
-        ],
-        white: [
-            { offset: '100%', color: '#CC9A81', opacity: '0' },
-            { offset: '0%', color: '#FFFFFF', opacity: '1' }
-        ]
-    };
-
     /**
-     * Replace every {property}-like mark in tpl with the corresponding property
-     * from the data object. Example: fill('My name is {first} {last}.', { first: 'John', last: 'Malkovich' });
+     * Create SVG element.
      */
-    function fill(tpl, data) {
-        if (Object.prototype.toString.call(data) != '[object Array]') data = [data];
-
-        var regexp = [], ret = [];
-        for (var key in data[0]) regexp.push('{' + key + '}');
-        regexp = new RegExp(regexp.join('|'), 'g');
-
-        function replacer(data) {
-            return function(match) { return data[match.substr(1, match.length - 2)]; }
-        }
-        
-        var idx = data.length;
-        while (idx--) ret.push(tpl.replace(regexp, replacer(data[idx])));
-        return ret.join('');
+    function $(el, attrs, children) {
+        el = document.createElementNS(svgNS, el);
+        for (var key in attrs)
+            el.setAttribute(key, attrs[key]);
+        if (Object.prototype.toString.call(children) != '[object Array]') children = [children];
+        var i = 0, len = (children[0] && children.length) || 0;
+        for (; i < len; i++)
+            el.appendChild(children[i]);
+        return el;
     }
 
     /**
      * Create slide and picker markup depending on the supported technology.
      */
     if (type == 'SVG') {
-        var svg = {
-            doc: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"><desc>Created by David Durman</desc>{content}</svg>',
-            gradient: '<lineargradient id="{id}" x1="0%" y1="100%" x2="{x2}" y2="{y2}">{stopColors}</lineargradient>',
-            stopColor: '<stop offset="{offset}" stop-color="{color}" stop-opacity="{opacity}"></stop>',
-            rect: '<rect x="0" y="0" width="100%" height="100%" fill="url(#{gradientId})"></rect>'
-        };
-        
-        slide = fill(svg.doc, {
-            content: '<defs>'
-                + fill(svg.gradient, { id: 'gradient-hsv', x2: '0%', y2: '0%', stopColors: fill(svg.stopColor, gradients.hsv) })
-                + '</defs>'
-                + fill(svg.rect, { gradientId: 'gradient-hsv' })
-        });
 
-        picker = fill(svg.doc, {
-            content: '<defs>' 
-                + fill(svg.gradient, { id: 'gradient-black', x2: '0%', y2: '0%', stopColors: fill(svg.stopColor, gradients.black) })
-                + fill(svg.gradient, { id: 'gradient-white', x2: '100%', y2: '100%', stopColors: fill(svg.stopColor, gradients.white) })
-                + '</defs>'
-                + fill(svg.rect, { gradientId: 'gradient-white' })
-                + fill(svg.rect, { gradientId: 'gradient-black' })
-        });
-        
+        slide = $('svg', { xmlns: 'http://www.w3.org/2000/svg', version: '1.1', width: '100%', height: '100%' },
+                  [
+                      $('defs', {},
+                        $('linearGradient', { id: 'gradient-hsv', x1: '0%', y1: '100%', x2: '0%', y2: '0%'},
+                          [
+                              $('stop', { offset: '0%', 'stop-color': '#FF0000', 'stop-opacity': '1' }),
+                              $('stop', { offset: '13%', 'stop-color': '#FF00FF', 'stop-opacity': '1' }),
+                              $('stop', { offset: '25%', 'stop-color': '#8000FF', 'stop-opacity': '1' }),
+                              $('stop', { offset: '38%', 'stop-color': '#0040FF', 'stop-opacity': '1' }),
+                              $('stop', { offset: '50%', 'stop-color': '#00FFFF', 'stop-opacity': '1' }),
+                              $('stop', { offset: '63%', 'stop-color': '#00FF40', 'stop-opacity': '1' }),
+                              $('stop', { offset: '75%', 'stop-color': '#0BED00', 'stop-opacity': '1' }),
+                              $('stop', { offset: '88%', 'stop-color': '#FFFF00', 'stop-opacity': '1' }),
+                              $('stop', { offset: '100%', 'stop-color': '#FF0000', 'stop-opacity': '1' })
+                          ]
+                         )
+                       ),
+                      $('rect', { x: '0', y: '0', width: '100%', height: '100%', fill: 'url(#gradient-hsv)'})
+                  ]
+                 );
+
+        picker = $('svg', { xmlns: 'http://www.w3.org/2000/svg', version: '1.1', width: '100%', height: '100%' },
+                   [
+                       $('defs', {},
+                         [
+                             $('linearGradient', { id: 'gradient-black', x1: '0%', y1: '100%', x2: '0%', y2: '0%'},
+                               [
+                                   $('stop', { offset: '0%', 'stop-color': '#000000', 'stop-opacity': '1' }),
+                                   $('stop', { offset: '100%', 'stop-color': '#CC9A81', 'stop-opacity': '0' })
+                               ]
+                              ),
+                             $('linearGradient', { id: 'gradient-white', x1: '0%', y1: '100%', x2: '100%', y2: '100%'},
+                               [
+                                   $('stop', { offset: '0%', 'stop-color': '#FFFFFF', 'stop-opacity': '1' }),
+                                   $('stop', { offset: '100%', 'stop-color': '#CC9A81', 'stop-opacity': '0' })
+                               ]
+                              )
+                         ]
+                        ),
+                       $('rect', { x: '0', y: '0', width: '100%', height: '100%', fill: 'url(#gradient-white)'}),                       
+                       $('rect', { x: '0', y: '0', width: '100%', height: '100%', fill: 'url(#gradient-black)'})
+                   ]
+                  );
+
     } else if (type == 'VML') {
         slide = [
             '<DIV style="position: relative; width: 100%; height: 100%">',
@@ -204,9 +198,14 @@
         this.h = 0;
         this.s = 1;
         this.v = 1;
-        
-        slideElement.innerHTML = slide;
-        pickerElement.innerHTML = picker;
+
+        if (type == 'SVG') {
+            slideElement.appendChild(slide.cloneNode(true));
+            pickerElement.appendChild(picker.cloneNode(true));
+        } else {
+            slideElement.innerHTML = slide;
+            pickerElement.innerHTML = picker;            
+        }
 
         if (slideElement.attachEvent) {
             slideElement.attachEvent('onclick', slideListener(this, slideElement, pickerElement));

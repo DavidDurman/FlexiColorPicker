@@ -2,21 +2,21 @@
     <head>
         <script src="colorpicker.js"></script>
         <style>
-            #picker {
+            .picker {
               width: 200px;
               height: 200px;
               background-color: red;
               float: left;
               cursor: crosshair;
             }
-            #slide {
+            .slide {
               width: 30px;
               height: 200px;
               float: left;
               margin-left: 10px;
               cursor: crosshair;
             }
-            #color {
+            .color {
               width: 100px;
               height: 100px;
               background-color: red;
@@ -28,9 +28,12 @@
         </style>
     </head>
     <body>
-        <div id="picker"></div>
-        <div id="slide"></div>
-        <div id="color">#ff0000</div>
+        <div id="picker" class="picker"></div>
+        <div id="slide" class="slide"></div>
+        <div id="color" class="color">#ff0000</div>
+        <div id="picker2" class="picker"></div>
+        <div id="slide2" class="slide"></div>
+        <div id="color2" class="color">#ff0000</div>
         <script>
             ColorPicker(document.getElementById('slide'),
                         document.getElementById('picker'),
@@ -38,11 +41,11 @@
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });
-            ColorPicker(document.getElementById('slide'),
-                        document.getElementById('picker'),
+            ColorPicker(document.getElementById('slide2'),
+                        document.getElementById('picker2'),
                         function(hex) { 
-                            document.getElementById('color').innerHTML = hex;
-                            document.getElementById('color').style.backgroundColor = hex;
+                            document.getElementById('color2').innerHTML = hex;
+                            document.getElementById('color2').style.backgroundColor = hex;
                         });
         </script>
     </body>
