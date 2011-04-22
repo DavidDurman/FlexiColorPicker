@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script src="colorpicker.js"></script>
+        <style>
+            #picker {
+              width: 200px;
+              height: 200px;
+              background-color: red;
+              float: left;
+              cursor: crosshair;
+            }
+            #slide {
+              width: 30px;
+              height: 200px;
+              float: left;
+              margin-left: 10px;
+              cursor: crosshair;
+            }
+            #color {
+              width: 100px;
+              height: 100px;
+              background-color: red;
+              float: left;
+              margin-left: 10px;
+              font-size: 16px;
+              font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="picker"></div>
+        <div id="slide"></div>
+        <div id="color">#ff0000</div>
+        <script>
+            ColorPicker(document.getElementById('slide'),
+                        document.getElementById('picker'),
+                        function(hex) { 
+                            document.getElementById('color').innerHTML = hex;
+                            document.getElementById('color').style.backgroundColor = hex;
+                        });
+            ColorPicker(document.getElementById('slide'),
+                        document.getElementById('picker'),
+                        function(hex) { 
+                            document.getElementById('color').innerHTML = hex;
+                            document.getElementById('color').style.backgroundColor = hex;
+                        });
+        </script>
+    </body>
+</html>
