@@ -240,3 +240,15 @@ body {
     position:relative;
     top:1px;
 }
+
+#disqus-thread {
+    width: 600px;
+}
+#disqus-thread h3 {
+    color: white;
+    font-size: 14px;
+}
+#disqus-thread a {
+    color: white;
+    font-size: 10px;
+}
