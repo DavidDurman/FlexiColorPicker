@@ -41,6 +41,7 @@ body {
     -webkit-transform: rotate(-15deg);
     -moz-transform: rotate(-15deg);
     -ms-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
     transform: rotate(-15deg);
 }
 #header .l { 
@@ -49,6 +50,7 @@ body {
     -webkit-transform: rotate(10deg);
     -moz-transform: rotate(10deg);
     -ms-transform: rotate(10deg);
+    -o-transform: rotate(10deg);
     transform: rotate(10deg);
 }
 #header .e { 
@@ -57,6 +59,7 @@ body {
     -webkit-transform: rotate(-15deg);
     -moz-transform: rotate(-15deg);
     -ms-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
     transform: rotate(-15deg);
 }
 #header .x { 
@@ -65,6 +68,7 @@ body {
     -webkit-transform: rotate(12deg);
     -moz-transform: rotate(12deg);
     -ms-transform: rotate(12deg);
+    -o-transform: rotate(12deg);
     transform: rotate(12deg);
 }
 #header .i { 
