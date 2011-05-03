@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flexi ColorPicker Documentation</title>
+        <style type="text/css">
+            #page {
+                width: 800px;
+                margin: 0 auto;
+                background-color: #EAEAEA;
+                padding: 30px;
+            }
+            h1 {
+                font-family: Arial, Helvetica, sans-serif;
+               color: #565857;
+            }
+            h2 {
+                font-family: Arial, Helvetica, sans-serif;
+                color: #CF5B40;
+            }
+            em {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="page">
+        <h1>Flexi ColorPicker Documentation</h1>
+        <p>
+            Welcome to Flexi ColorPicker Documentation. This document describes
+            the usage and API of the color picker. The library was built
+            with simplicity in mind so there should not be anything what 
+            can surprise you.
+        </p>
+        <h2>Usage</h2>
+        <p>The color picker is built on top of HSV color model.
+            The only two parts of the picker is therefore
+            the slider, which allows you to select "hue" and 
+            the picker for selecting "saturation" and "value".
+            Both the slider and the picker have to be specified
+            as HTML elements. The main advantage is that their
+            dimensions can be set in CSS.
+
+            The color picker is not dependent on any external library
+            or CSS stylesheet. You get all the functionality by
+            including only one tiny JavaScript file (see example below).
+        <p>
+        <p>
+            Once you have your markup ready and CSS width and
+            height set for both the slider and picker, the 
+            only thing you have to do is to instantiate
+            the "ColorPicker" object. You can do that 
+            by calling the <em>ColorPicker()</em> function
+            passing the slider, the picker element and
+            callback as arguments. The callback is called
+            whenever the color changes and it is passed
+            color in hexadecimal, hsv and rgb formats.
+            Hexadecimal format is the string used most commonly
+            in CSS. Hsv and Rgb are objects with these properties:
+            <pre>
+            hsv: { h: /* hue [0,359] (angle) */, s: /* saturation [0,1] */, v: /* value [0,1] */ }
+            rgb: { r: /* red [0,255] */, g: /* green [0,255] */, b: /* blue [0,255] */ }
+            </pre>
+        </p>
+        <h2>Example</h2>
+            <pre>
+            &lt;html&gt;
+              &lt;head&gt;
+                &lt;script type="text/javascript" 
+                        src="colorpicker.js"&gt;&lt;/script&gt;
+                &lt;style type="text/css"&gt;
+                  #picker { width: 200px; height: 200px }
+                  #slide { width: 30px; height: 200px }
+                &lt;/style&gt;
+              &lt;/head&gt;
+              &lt;body&gt;
+                &lt;div id="picker"&gt;&lt;/div&gt;
+                &lt;div id="slide"&gt;&lt;/div&gt;
+                &lt;script type="text/javascript"&gt;
+                  ColorPicker(
+                    document.getElementById('slide'),
+                    document.getElementById('picker'),
+                    function(hex, hsv, rgb) {
+                      console.log(hsv.h, hsv.s, hsv.v);
+                      console.log(rbg.r, rgb.g, rgb.b);
+                      document.body.style.backgroundColor = hex;
+                    });
+                &lt;/script&gt;
+              &lt;/body&gt;
+            &lt;/html&gt;
+            </pre>
+            <p>Note that you can set arbitrary dimensions,
+            position, border and other CSS properties
+            to the slider and picker element as you would
+            do with any other HTML element on the page.</p>
+       </div>
+    </body>
+</html>
