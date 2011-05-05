@@ -6,16 +6,16 @@ body {
 }
 #browsers {
     float: right;
-    width: 100px;
+    width: 120px;
     margin-top: -230px;
     position: relative;
-    left: 220px;
+    left: 260px;
 }
 #browsers span {
-    font-size: 10px;
+    font-size: 9px;
 }
 #browsers img {
-    max-width: 40px;
+    max-width: 30px;
 }
 #header {
     text-align: left;
@@ -147,7 +147,7 @@ body {
     border: 1px solid gray;
     padding: 4px;
     font-size: 12px;
-    width: 115px;
+    width: 100px;
     margin-bottom: 4px;
     margin-left: -5px;
 }
