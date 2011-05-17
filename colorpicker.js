@@ -10,19 +10,17 @@
     /**
      * Return mouse position relative to the element el.
      */
-    function mousePosition(evt, el) {
+    function mousePosition(evt) {
         // IE:
         if (window.event && window.event.contentOverflow !== undefined) {
             return { x: window.event.offsetX, y: window.event.offsetY };
         }
-        
         // Webkit:
         if (evt.offsetX !== undefined && evt.offsetY !== undefined) {
             return { x: evt.offsetX, y: evt.offsetY };
         }
-
         // Firefox:
-        var box = el.getBoundingClientRect();
+        var box = evt.target.getBoundingClientRect();
         return { x: evt.pageX - box.left, y: evt.pageY - box.top };
     }
 
@@ -141,7 +139,7 @@
     function slideListener(ctx, slideElement, pickerElement) {
         return function(evt) {
             evt = evt || window.event;
-            var mouse = mousePosition(evt, slideElement);
+            var mouse = mousePosition(evt);
             ctx.h = mouse.y / slideElement.offsetHeight * 360 + hueOffset;
             var c = hsv2rgb(ctx.h, 1, 1);
             pickerElement.style.backgroundColor = c.hex;
@@ -153,10 +151,10 @@
      * Return click event handler for the picker.
      * Calls ctx.callback if provided.
      */  
-    function pickerListener(ctx, slideElement, pickerElement, indicatorElement) {
+    function pickerListener(ctx, pickerElement) {
         return function(evt) {
             evt = evt || window.event;
-            var mouse = mousePosition(evt, pickerElement),
+            var mouse = mousePosition(evt),
                 width = pickerElement.offsetWidth,            
                 height = pickerElement.offsetHeight;
 
@@ -173,7 +171,7 @@
      * @param {DOMElement} pickerElement HSV picker element.
      * @param {Function} callback Called whenever the color is changed provided chosen color in RGB HEX format as the only argument.
      */
-    function ColorPicker(slideElement, pickerElement, callback, indicatorElement) {
+    function ColorPicker(slideElement, pickerElement, callback) {
         if (!(this instanceof ColorPicker)) return new ColorPicker(slideElement, pickerElement, callback);
         
         this.callback = callback;
@@ -191,10 +189,10 @@
 
         if (slideElement.attachEvent) {
             slideElement.attachEvent('onclick', slideListener(this, slideElement, pickerElement));
-            pickerElement.attachEvent('onclick', pickerListener(this, slideElement, pickerElement, indicatorElement));
+            pickerElement.attachEvent('onclick', pickerListener(this, pickerElement));
         } else if (slideElement.addEventListener) {
             slideElement.addEventListener('click', slideListener(this, slideElement, pickerElement), false);
-            pickerElement.addEventListener('click', pickerListener(this, slideElement, pickerElement), false);
+            pickerElement.addEventListener('click', pickerListener(this, pickerElement), false);
         }
     };
 
