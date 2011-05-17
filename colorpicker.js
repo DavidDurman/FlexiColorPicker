@@ -22,26 +22,8 @@
         }
 
         // Firefox:
-        
-        // get position relative to the whole document
-        // note that it also counts on scrolling (as opposed to clientX/Y).
-        var pageX = evt.pageX,
-            pageY = evt.pageY,
-            // get position of the element relative to its offsetParent
-            offsetLeft = el.offsetLeft,
-            offsetTop = el.offsetTop,
-            offsetParent = el.offsetParent,
-        
-            offsetX = pageX - offsetLeft,
-            offsetY = pageY - offsetTop;
-
-        // climb up positioned elements to sum up their offsets
-        while (offsetParent) {
-            offsetX += offsetParent.offsetLeft;
-            offsetY += offsetParent.offsetTop;
-            offsetParent = offsetParent.offsetParent;
-        }
-        return { x: offsetX, y: offsetY };
+        var box = el.getBoundingClientRect();
+        return { x: evt.pageX - box.left, y: evt.pageY - box.top };
     }
 
     /**
@@ -163,7 +145,7 @@
             ctx.h = mouse.y / slideElement.offsetHeight * 360 + hueOffset;
             var c = hsv2rgb(ctx.h, 1, 1);
             pickerElement.style.backgroundColor = c.hex;
-            ctx.callback && ctx.callback(c.hex, { h: ctx.h - hueOffset, s: ctx.s, v: ctx.v }, { r: c.r, g: c.g, b: c.b });
+            ctx.callback && ctx.callback(c.hex, { h: ctx.h - hueOffset, s: ctx.s, v: ctx.v }, { r: c.r, g: c.g, b: c.b }, undefined, mouse);
         }
     };
 
@@ -171,7 +153,7 @@
      * Return click event handler for the picker.
      * Calls ctx.callback if provided.
      */  
-    function pickerListener(ctx, slideElement, pickerElement) {
+    function pickerListener(ctx, slideElement, pickerElement, indicatorElement) {
         return function(evt) {
             evt = evt || window.event;
             var mouse = mousePosition(evt, pickerElement),
@@ -181,7 +163,7 @@
             ctx.s = mouse.x / width;
             ctx.v = (height - mouse.y) / height;
             var c = hsv2rgb(ctx.h, ctx.s, ctx.v);
-            ctx.callback && ctx.callback(c.hex, { h: ctx.h - hueOffset, s: ctx.s, v: ctx.v }, { r: c.r, g: c.g, b: c.b });
+            ctx.callback && ctx.callback(c.hex, { h: ctx.h - hueOffset, s: ctx.s, v: ctx.v }, { r: c.r, g: c.g, b: c.b }, mouse);
         }
     };
 
@@ -191,7 +173,7 @@
      * @param {DOMElement} pickerElement HSV picker element.
      * @param {Function} callback Called whenever the color is changed provided chosen color in RGB HEX format as the only argument.
      */
-    function ColorPicker(slideElement, pickerElement, callback) {
+    function ColorPicker(slideElement, pickerElement, callback, indicatorElement) {
         if (!(this instanceof ColorPicker)) return new ColorPicker(slideElement, pickerElement, callback);
         
         this.callback = callback;
@@ -209,7 +191,7 @@
 
         if (slideElement.attachEvent) {
             slideElement.attachEvent('onclick', slideListener(this, slideElement, pickerElement));
-            pickerElement.attachEvent('onclick', pickerListener(this, slideElement, pickerElement));
+            pickerElement.attachEvent('onclick', pickerListener(this, slideElement, pickerElement, indicatorElement));
         } else if (slideElement.addEventListener) {
             slideElement.addEventListener('click', slideListener(this, slideElement, pickerElement), false);
             pickerElement.addEventListener('click', pickerListener(this, slideElement, pickerElement), false);

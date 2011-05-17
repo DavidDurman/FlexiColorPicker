@@ -2,6 +2,9 @@
     <head>
         <script src="colorpicker.js"></script>
         <style>
+            body {
+              padding: 50px;
+            }
             .picker {
               width: 200px;
               height: 200px;
@@ -13,7 +16,6 @@
               width: 30px;
               height: 200px;
               float: left;
-              margin-left: 10px;
               cursor: crosshair;
             }
             .color {
@@ -25,25 +27,90 @@
               font-size: 16px;
               font-weight: bold;
             }
+            .indicator {
+              width: 5px;
+              height: 5px;
+              -moz-border-radius: 4px;
+              -o-border-radius: 4px;
+              -webkit-border-radius: 4px;
+              border-radius: 4px;
+              border: 1px solid black;
+              background-color: white;
+              position: absolute;
+            }
+            .wrapper {
+               width: 200px;
+               height: 200px;
+               position: relative;
+               float: left;
+            }
+            .wrapper-slide {
+               width: 30px;
+               margin-left: 10px;
+            }
+            #indicator-slide {
+              width: 100%;
+              height: 10px;
+              left: -2px;
+              opacity: .3;
+              -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+              filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+              filter: alpha(opacity=30);
+              border: 2px solid black;
+            }
+            #picker2 {
+              width: 100px;
+              height: 100px;
+              margin-left: 100px;
+            }
+            #slide2 {
+              height: 100px;
+              margin-left: 10px;
+            }
         </style>
     </head>
     <body>
-        <div id="picker" class="picker"></div>
-        <div id="slide" class="slide"></div>
+        <!-- first color picker -->
+        <div class="wrapper">
+            <div id="picker" class="picker"></div>
+            <div id="indicator-picker" class="indicator"></div>
+        </div>
+        <div class="wrapper wrapper-slide">
+            <div id="slide" class="slide"></div>
+            <div id="indicator-slide" class="indicator"></div>
+        </div>
         <div id="color" class="color">#ff0000</div>
+
+        <!-- second color picker -->
         <div id="picker2" class="picker"></div>
         <div id="slide2" class="slide"></div>
         <div id="color2" class="color">#ff0000</div>
+
         <script>
             ColorPicker(document.getElementById('slide'),
                         document.getElementById('picker'),
-                        function(hex) { 
+                        function(hex, hsv, rgb, mousePicker, mouseSlide) { 
+                            if (mousePicker) {
+                                var indicator = document.getElementById('indicator-picker');
+                                indicator.style.top = (mousePicker.y - 2.5) + 'px';
+                                indicator.style.left = (mousePicker.x - 2.5) + 'px';
+                            } else {
+                                // reset position of the picker indicator
+                                var indicator = document.getElementById('indicator-picker');
+                                indicator.style.left = '';      // reset left coordinate
+                                indicator.style.top = '0px';
+                                indicator.style.right = '0px';
+                                // set position of the slide indicator
+                                indicator = document.getElementById('indicator-slide');
+                                indicator.style.top = (mouseSlide.y - 5) + 'px';
+                                indicator.style.left = '-2px';
+                            }
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });
             ColorPicker(document.getElementById('slide2'),
                         document.getElementById('picker2'),
-                        function(hex) { 
+                        function(hex, hsv, rgb, mouse) { 
                             document.getElementById('color2').innerHTML = hex;
                             document.getElementById('color2').style.backgroundColor = hex;
                         });
