@@ -87,16 +87,13 @@
         <div id="color2" class="color">#ff0000</div>
 
         <script>
-            ColorPicker(document.getElementById('slide'),
+            c = ColorPicker(document.getElementById('slide'),
                         document.getElementById('picker'),
                         function(hex, hsv, rgb, mousePicker, mouseSlide) { 
-                            if (mousePicker) {
-                                var indicator = document.getElementById('indicator-picker');
-                                indicator.style.top = (mousePicker.y - 2.5) + 'px';
-                                indicator.style.left = (mousePicker.x - 2.5) + 'px';
-                            } else {
+                            var indicator;
+                            if (mouseSlide) {
                                 // reset position of the picker indicator
-                                var indicator = document.getElementById('indicator-picker');
+                                indicator = document.getElementById('indicator-picker');
                                 indicator.style.left = '';      // reset left coordinate
                                 indicator.style.top = '0px';
                                 indicator.style.right = '0px';
@@ -105,6 +102,11 @@
                                 indicator.style.top = (mouseSlide.y - 5) + 'px';
                                 indicator.style.left = '-2px';
                             }
+                            if (mousePicker) {
+                                indicator = document.getElementById('indicator-picker');
+                                indicator.style.top = (mousePicker.y - 2.5) + 'px';
+                                indicator.style.left = (mousePicker.x - 2.5) + 'px';
+                            } 
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });

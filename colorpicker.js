@@ -178,6 +178,8 @@
         this.h = 0;
         this.s = 1;
         this.v = 1;
+        this.pickerElement = pickerElement;
+        this.slideElement = slideElement;
 
         if (type == 'SVG') {
             slideElement.appendChild(slide.cloneNode(true));
@@ -194,6 +196,28 @@
             slideElement.addEventListener('click', slideListener(this, slideElement, pickerElement), false);
             pickerElement.addEventListener('click', pickerListener(this, pickerElement), false);
         }
+    };
+
+    /**
+     * Sets color of the picker in hsv format.
+     * @param {object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
+     */
+    ColorPicker.prototype.setHsv = function(hsv) {
+        this.h = hsv.h;
+        this.s = hsv.s;
+        this.v = hsv.v;
+        var c = hsv2rgb(this.h, this.s, this.v),
+            mouseSlide = {
+                y: ((this.h - hueOffset) * this.slideElement.offsetHeight) / 360,
+                x: 0    // not important
+            },
+            pickerHeight = this.pickerElement.offsetHeight,
+            mousePicker = {
+                x: this.s * this.pickerElement.offsetWidth,
+                y: pickerHeight - this.v * pickerHeight
+            };
+        this.pickerElement.style.backgroundColor = hsv2rgb(this.h, 1, 1).hex;
+        this.callback && this.callback(c.hex, { h: this.h - hueOffset, s: this.s, v: this.v }, { r: c.r, g: c.g, b: c.b }, mousePicker, mouseSlide);
     };
 
     window.ColorPicker = ColorPicker;
