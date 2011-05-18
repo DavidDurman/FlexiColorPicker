@@ -220,45 +220,53 @@
         }
     };
 
-    function setColor(h, s, v) {
-    }
-    
     /**
-     * Sets color of the picker in hsv format.
+     * Sets color of the picker in hsv/rgb/hex format.
+     * @param {object} ctx ColorPicker instance.
      * @param {object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
+     * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
+     * @param {string} hex String of the form: #RRGGBB.
      */
-    ColorPicker.prototype.setHsv = function(hsv) {
-        this.h = hsv.h % 360;
-        this.s = hsv.s;
-        this.v = hsv.v;
-        var c = hsv2rgb(this.h, this.s, this.v),
+     function setColor(ctx, hsv, rgb, hex) {
+        ctx.h = hsv.h % 360;
+        ctx.s = hsv.s;
+        ctx.v = hsv.v;
+        var c = hsv2rgb(ctx.h, ctx.s, ctx.v),
             mouseSlide = {
-                y: (this.h * this.slideElement.offsetHeight) / 360,
+                y: (ctx.h * ctx.slideElement.offsetHeight) / 360,
                 x: 0    // not important
             },
-            pickerHeight = this.pickerElement.offsetHeight,
+            pickerHeight = ctx.pickerElement.offsetHeight,
             mousePicker = {
-                x: this.s * this.pickerElement.offsetWidth,
-                y: pickerHeight - this.v * pickerHeight
+                x: ctx.s * ctx.pickerElement.offsetWidth,
+                y: pickerHeight - ctx.v * pickerHeight
             };
-        this.pickerElement.style.backgroundColor = hsv2rgb(this.h, 1, 1).hex;
-        this.callback && this.callback(c.hex, { h: this.h - hueOffset, s: this.s, v: this.v }, { r: c.r, g: c.g, b: c.b }, mousePicker, mouseSlide);
+        ctx.pickerElement.style.backgroundColor = hsv2rgb(ctx.h, 1, 1).hex;
+        ctx.callback && ctx.callback(hex || c.hex, { h: ctx.h, s: ctx.s, v: ctx.v }, rgb || { r: c.r, g: c.g, b: c.b }, mousePicker, mouseSlide);
     };
 
     /**
      * Sets color of the picker in rgb format.
      * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
      */
+    ColorPicker.prototype.setHsv = function(hsv) {
+        setColor(this, hsv);
+    };
+    
+    /**
+     * Sets color of the picker in rgb format.
+     * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
+     */
     ColorPicker.prototype.setRgb = function(rgb) {
-        this.setHsv(rgb2hsv(rgb.r, rgb.g, rgb.b));
+        setColor(this, rgb2hsv(rgb.r, rgb.g, rgb.b), rgb);
     };
 
     /**
      * Sets color of the picker in hex format.
-     * @param {string} hex Hex color format, e.g. #12A3F2
+     * @param {string} hex Hex color format #RRGGBB.
      */
     ColorPicker.prototype.setHex = function(hex) {
-        this.setHsv(rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)));
+        setColor(this, rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
     };
     
     window.ColorPicker = ColorPicker;
