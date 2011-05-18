@@ -84,9 +84,10 @@
         </div>
         <div id="color" class="color">#ff0000</div>
         <label>Example: { r: 200, g: 100, b: 30 },</label><br/>
-        <label>{ r: .2, g: .8, b: .4 }, { h: 150, s: .3, v: .5 }</label><br/>
+        <label>{ r: .2, g: .8, b: .4 }, { h: 150, s: .3, v: .5 },</label><br/>
+        <label>"#223344"</label><br/>
         <input type="text" id="input" value="" />
-        <input type="button" value="Set Color" onclick="eval('f = ' + document.getElementById('input').value); f.h ? c.setHsv(f) : c.setRgb(f);" />
+        <input type="button" value="Set Color" onclick="eval('f = ' + document.getElementById('input').value); f.h ? c.setHsv(f) : f.r ? c.setRgb(f) : c.setHex(f);" />
 
         <!-- second color picker -->
         <div id="picker2" class="picker"></div>

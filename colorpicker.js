@@ -252,6 +252,14 @@
     ColorPicker.prototype.setRgb = function(rgb) {
         this.setHsv(rgb2hsv(rgb.r, rgb.g, rgb.b));
     };
+
+    /**
+     * Sets color of the picker in hex format.
+     * @param {string} hex Hex color format, e.g. #12A3F2
+     */
+    ColorPicker.prototype.setHex = function(hex) {
+        this.setHsv(rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)));
+    };
     
     window.ColorPicker = ColorPicker;
 
