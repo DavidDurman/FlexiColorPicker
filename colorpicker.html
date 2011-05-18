@@ -110,9 +110,11 @@
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });
+            c.setHsv({ h: 270, s: 0.6, v: 0.7 });
+
             ColorPicker(document.getElementById('slide2'),
                         document.getElementById('picker2'),
-                        function(hex, hsv, rgb, mouse) { 
+                        function(hex, hsv, rgb) { 
                             document.getElementById('color2').innerHTML = hex;
                             document.getElementById('color2').style.backgroundColor = hex;
                         });
