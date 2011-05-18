@@ -48,6 +48,9 @@
                width: 30px;
                margin-left: 10px;
             }
+            input, label {
+               float: left;
+            }
             #indicator-slide {
               width: 100%;
               height: 10px;
@@ -80,6 +83,10 @@
             <div id="indicator-slide" class="indicator"></div>
         </div>
         <div id="color" class="color">#ff0000</div>
+        <label>Example: { r: 200, g: 100, b: 30 },</label><br/>
+        <label>{ r: .2, g: .8, b: .4 }, { h: 150, s: .3, v: .5 }</label><br/>
+        <input type="text" id="input" value="" />
+        <input type="button" value="Set Color" onclick="eval('f = ' + document.getElementById('input').value); f.h ? c.setHsv(f) : c.setRgb(f);" />
 
         <!-- second color picker -->
         <div id="picker2" class="picker"></div>
@@ -110,7 +117,10 @@
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });
-            c.setHsv({ h: 270, s: 0.6, v: 0.7 });
+//            c.setHsv({ h: 359, s: 0.6, v: 0.7 });
+//            c.setRgb({ r: 255, g: 255, b: 255 });
+            c.setRgb({ r: 55, g: 255, b: 80 });
+//            c.setRgb({ r: 0.9, g: 0.4, b: 0.2 });
 
             ColorPicker(document.getElementById('slide2'),
                         document.getElementById('picker2'),

@@ -133,6 +133,28 @@
     }
 
     /**
+     * Convert RGB representation to HSV.
+     * r, g, b can be either in <0,1> range or <0,255> range.
+     */
+    function rgb2hsv(r, g, b) {
+        if (r > 1 || g > 1 || b > 1) {
+            r /= 255;
+            g /= 255;
+            b /= 255;            
+        }
+        var H, S, V, C;
+        V = Math.max(r, g, b);
+        C = V - Math.min(r, g, b);
+        H = (C == 0 ? null :
+             V == r ? (g - b) / C :
+             V == g ? (b - r) / C + 2 :
+                      (r - g) / C + 4);
+        H = (H % 6) * 60;
+        S = C == 0 ? 0 : C / V;
+        return { h: H, s: S, v: V };
+    }
+
+    /**
      * Return click event handler for the slider.
      * Sets picker background color and calls ctx.callback if provided.
      */  
@@ -198,17 +220,20 @@
         }
     };
 
+    function setColor(h, s, v) {
+    }
+    
     /**
      * Sets color of the picker in hsv format.
      * @param {object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
      */
     ColorPicker.prototype.setHsv = function(hsv) {
-        this.h = hsv.h;
+        this.h = hsv.h % 360;
         this.s = hsv.s;
         this.v = hsv.v;
         var c = hsv2rgb(this.h, this.s, this.v),
             mouseSlide = {
-                y: ((this.h - hueOffset) * this.slideElement.offsetHeight) / 360,
+                y: (this.h * this.slideElement.offsetHeight) / 360,
                 x: 0    // not important
             },
             pickerHeight = this.pickerElement.offsetHeight,
@@ -220,6 +245,14 @@
         this.callback && this.callback(c.hex, { h: this.h - hueOffset, s: this.s, v: this.v }, { r: c.r, g: c.g, b: c.b }, mousePicker, mouseSlide);
     };
 
+    /**
+     * Sets color of the picker in rgb format.
+     * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
+     */
+    ColorPicker.prototype.setRgb = function(rgb) {
+        this.setHsv(rgb2hsv(rgb.r, rgb.g, rgb.b));
+    };
+    
     window.ColorPicker = ColorPicker;
 
 })(window, window.document);
