@@ -27,7 +27,6 @@
   </head>
   <body>
     <div id="header">
-        <a id="buy-button" href="http://www.binpress.com/app/colorpicker/282?ad=806">Buy for $3.99</a>
         <h1><span class="f">F</span><span class="l">l</span><span class="e">e</span><span class="x">x</span><span class="i">i</span><span class="color">Color</span><span class="picker">Picker</span></h1>
         <p>No flash, images, external libraries, CSS or 1px divs. Only 4.3KB minified.</p>
     </div>
@@ -61,9 +60,15 @@
             </pre>
             <span class="end-mark">/&gt;</span>
         </div>
-        <div id="picker-wrapper">
-            <div id="picker"></div>
-            <div id="slide"></div>
+        <div id="color-picker-wrapper">
+            <div id="picker-wrapper">
+                <div id="picker"></div>
+                <div id="picker-indicator"></div>
+            </div>
+            <div id="slide-wrapper">
+                <div id="slide"></div>
+                <div id="slide-indicator"></div>
+            </div>
             <div id="browsers">
                 <img src="img/firefox.png"/><span>FF 3.5+</span><br/>
                 <img src="img/chrome.png"/><span>Chrome 4+</span><br/>
@@ -84,7 +89,12 @@
         </ul>
         <script type="text/javascript">
             ColorPicker(document.getElementById('slide'), document.getElementById('picker'), 
-                function(hex, hsv, rgb) {
+                function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                    ColorPicker.positionIndicators(
+                        document.getElementById('slide-indicator'),
+                        document.getElementById('picker-indicator'),
+                        mouseSlide, mousePicker
+                    );
                     document.body.style.backgroundColor = hex;
                     document.getElementById('hex').innerHTML = hex;
                     document.getElementById('rgb').innerHTML = 'rbg(' + rgb.r.toFixed() + ',' + rgb.g.toFixed() + ',' + rgb.b.toFixed() + ')';
