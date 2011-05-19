@@ -4,7 +4,7 @@
         <title>Flexi ColorPicker Documentation</title>
         <style type="text/css">
             #page {
-                width: 800px;
+                width: 880px;
                 margin: 0 auto;
                 background-color: #EAEAEA;
                 padding: 30px;
@@ -16,6 +16,9 @@
             h2 {
                 font-family: Arial, Helvetica, sans-serif;
                 color: #CF5B40;
+            }
+            h3 {
+                text-decoration: underline;
             }
             em {
                 font-weight: bold;
@@ -61,7 +64,7 @@
             rgb: { r: /* red [0,255] */, g: /* green [0,255] */, b: /* blue [0,255] */ }
             </pre>
         </p>
-        <h2>Example</h2>
+        <h2>Basic example</h2>
             <pre>
             &lt;html&gt;
               &lt;head&gt;
@@ -92,6 +95,108 @@
             position, border and other CSS properties
             to the slider and picker element as you would
             do with any other HTML element on the page.</p>
+
+        <h2>Advanced usage</h2>
+
+        <h3>Indicators</h3>
+        <p>
+            Flexi color picker allows you to set indicators - elements indicating the currently
+            selected color. Following the Flexi color picker philosophy, there is no built-in images
+            for the indicators. Instead, user has a freedom to use any element he wants. It could
+            be an <em>img</em> tag, <em>div</em> tag or any other object which can then
+            be styled in CSS the usual way.</p>
+        <p>
+            The user is expected to create a wrapper around the picker/slide and the picker/slide indicator.
+            The wrapper has to be positioned element (in CSS: position relative/absolute/fixed).
+            The <em>ColorPicker</em> passes position of the indicators as arguments into
+            the <em>callback</em>. The user can therefore set the left/top coordinate
+            of an indicator inside the callback (assuming the indicator is absolutely positioned).
+        </p>
+        <p>
+            As the common usage is assumed to set the indicator center to the indicator
+            position, the ColorPicker provides a helper function to do that to save the user's typing.
+            See below an example and implementation of the helper for the curious ones.
+        </p>
+        <pre>
+            &lt;style type="text/css"&gt;
+                #picker-wrapper {
+                  width: 200px;
+                  height: 200px;
+                  position: relative;
+                }
+                #slide-wrapper {
+                  width: 30px;
+                  height: 200px;
+                  position: relative;
+                }
+                #picker-indicator {
+                  width: 3px;
+                  height: 3px;
+                  position: absolute;
+                  border: 1px solid white;
+                }
+                #slide-indicator {
+                  width: 100%;
+                  height: 10px;
+                  position: absolute;
+                  border: 1px solid black;
+                }
+            &lt;/style&gt;
+            &lt;div id="picker-wrapper"&gt;
+                &lt;div id="picker"&gt;&lt;/div&gt;
+                &lt;div id="picker-indicator"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div id="slide-wrapper"&gt;
+                &lt;div id="slide"&gt;&lt;/div&gt;
+                &lt;div id="slide-indicator"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;script type="text/javascript"&gt;
+            ColorPicker(document.getElementById('slide'), document.getElementById('picker'), 
+                function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                    ColorPicker.positionIndicators(
+                        document.getElementById('slide-indicator'),
+                        document.getElementById('picker-indicator'),
+                        mouseSlide, mousePicker
+                    );
+                    document.body.style.backgroundColor = hex;
+            });
+            &lt;/script&gt;
+        </pre>
+        <h4>Implementation of the <em>ColorPicker.positionIndicators</em></h4>
+        <p>Below is an implementation of the positioning helper just to get
+        the idea about the positioning of the indicators and also to show
+        that it is not necessary to use the helper if you want to customized
+        the behaviour and do it completely differently.</p>
+        <pre>
+            ColorPicker.positionIndicators = function(slideIndicator, pickerIndicator, mouseSlide, mousePicker) {
+                if (mouseSlide) {
+                    pickerIndicator.style.left = '';    // reset the left coordinate
+                    pickerIndicator.style.top = '0px';
+                    pickerIndicator.style.right = '0px';
+                    slideIndicator.style.top = (mouseSlide.y - slideIndicator.offsetHeight/2) + 'px';
+                }
+                if (mousePicker) {
+                    pickerIndicator.style.top = (mousePicker.y - pickerIndicator.offsetHeight/2) + 'px';
+                    pickerIndicator.style.left = (mousePicker.x - pickerIndicator.offsetWidth/2) + 'px';
+                } 
+            };
+        </pre>
+
+        <h3>Setting a color</h3>
+        <p>
+            The color of the color picker can also be set in the program instead
+            of by the user mouse clicks. The usage is straightforward. The <em>ColorPicker</em>
+            instance provides three methods: <em>setHsv(hsvObject)</em>, <em>setRgb(rgbObject)</em>
+            and <em>setHex(hexString)</em>. See example below as it describes it better.
+        </p>
+        <pre>
+            var c = ColorPicker( ... );
+            c.setHsv({ h: 310, s: .3, v: .7 });       // hue is an angle <0..359>
+            c.setRgb({ r: 230, g: 150, b: 30 });      // integer range <0..255>
+            c.setRgb({ r: .7, g: .2, b: .5 });        // float range <0..1>
+            c.setHex('#223344');                      // usual HTML hex color string
+        </pre>
+
        </div>
     </body>
 </html>
