@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="colorpicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="themes.css" />
+        <style type="text/css">
+            body {
+              background-color: #62d1d2;
+              padding: 50px;
+            }
+            .separator {
+              width: 100px;
+              height: 100px;
+              float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="cp-default">
+            <div class="picker-wrapper">
+                <div class="picker"></div>
+                <div class="picker-indicator"></div>
+            </div>
+            <div class="slide-wrapper">
+                <div class="slide"></div>
+                <div class="slide-indicator"></div>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="cp-small">
+            <div class="picker-wrapper">
+                <div class="picker"></div>
+                <div class="picker-indicator"></div>
+            </div>
+            <div class="slide-wrapper">
+                <div class="slide"></div>
+                <div class="slide-indicator"></div>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="cp-fancy">
+            <div class="picker-wrapper">
+                <div class="picker"></div>
+                <img class="picker-indicator" src="http://c.dryicons.com/images/icon_sets/coquette_part_5_icons_set/png/128x128/target.png" />
+            </div>
+            <div class="slide-wrapper">
+                <div class="slide"></div>
+                <img class="slide-indicator" src="http://b.dryicons.com/images/icon_sets/stickers_icon_set/png/128x128/left_arrow.png" />
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var slides = [], pickers = [], slideIndicators = [], pickerIndicators = [],
+                c = [], i, len, divs = document.getElementsByTagName('*');
+
+            for (i = 0, len = divs.length; i < len; i++) {
+                switch (divs[i].className) {
+                    case 'slide': slides.push(divs[i]); break;
+                    case 'picker': pickers.push(divs[i]); break;
+                    case 'slide-indicator': slideIndicators.push(divs[i]); break;
+                    case 'picker-indicator': pickerIndicators.push(divs[i]); break;
+                }
+            }
+            
+            for (i = 0, len = slides.length; i < len; i++) {
+                c.push(ColorPicker(slides[i], pickers[i]));
+            }
+
+            c[0].callback = function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                ColorPicker.positionIndicators(
+                    slideIndicators[0], pickerIndicators[0],
+                    mouseSlide, mousePicker
+                );
+                document.body.style.backgroundColor = hex;
+            };
+
+            c[1].callback = function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                ColorPicker.positionIndicators(
+                    slideIndicators[1], pickerIndicators[1],
+                    mouseSlide, mousePicker
+                );
+                document.body.style.backgroundColor = hex;
+            };
+
+            c[2].callback = function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                ColorPicker.positionIndicators(
+                    slideIndicators[2], pickerIndicators[2],
+                    mouseSlide, mousePicker
+                );
+                document.body.style.backgroundColor = hex;
+            };
+        </script>
+    </body>
+</html>
