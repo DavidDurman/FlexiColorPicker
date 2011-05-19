@@ -268,6 +268,26 @@
     ColorPicker.prototype.setHex = function(hex) {
         setColor(this, rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
     };
+
+    /**
+     * Helper to position indicators.
+     * @param {HTMLElement} slideIndicator DOM element representing the indicator of the slide area.
+     * @param {HTMLElement} pickerIndicator DOM element representing the indicator of the picker area.
+     * @param {object} mouseSlide Coordinates of the mouse cursor in the slide area.
+     * @param {object} mousePicker Coordinates of the mouse cursor in the picker area.
+     */
+    ColorPicker.positionIndicators = function(slideIndicator, pickerIndicator, mouseSlide, mousePicker) {
+        if (mouseSlide) {
+            pickerIndicator.style.left = '';
+            pickerIndicator.style.top = '0px';
+            pickerIndicator.style.right = '0px';
+            slideIndicator.style.top = (mouseSlide.y - slideIndicator.offsetHeight/2) + 'px';
+        }
+        if (mousePicker) {
+            pickerIndicator.style.top = (mousePicker.y - pickerIndicator.offsetHeight/2) + 'px';
+            pickerIndicator.style.left = (mousePicker.x - pickerIndicator.offsetWidth/2) + 'px';
+        } 
+    };
     
     window.ColorPicker = ColorPicker;
 

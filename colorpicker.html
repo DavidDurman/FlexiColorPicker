@@ -99,24 +99,11 @@
         <script>
             c = ColorPicker(document.getElementById('slide'),
                         document.getElementById('picker'),
-                        function(hex, hsv, rgb, mousePicker, mouseSlide) { 
-                            var indicator;
-                            if (mouseSlide) {
-                                // reset position of the picker indicator
-                                indicator = document.getElementById('indicator-picker');
-                                indicator.style.left = '';      // reset left coordinate
-                                indicator.style.top = '0px';
-                                indicator.style.right = '0px';
-                                // set position of the slide indicator
-                                indicator = document.getElementById('indicator-slide');
-                                indicator.style.top = (mouseSlide.y - 5) + 'px';
-                                indicator.style.left = '-2px';
-                            }
-                            if (mousePicker) {
-                                indicator = document.getElementById('indicator-picker');
-                                indicator.style.top = (mousePicker.y - 2.5) + 'px';
-                                indicator.style.left = (mousePicker.x - 2.5) + 'px';
-                            } 
+                        function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                            ColorPicker.positionIndicators(
+                                document.getElementById('indicator-slide'), 
+                                document.getElementById('indicator-picker'),
+                                mouseSlide, mousePicker);
                             document.getElementById('color').innerHTML = hex;
                             document.getElementById('color').style.backgroundColor = hex;
                         });
