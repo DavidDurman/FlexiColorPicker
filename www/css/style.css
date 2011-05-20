@@ -244,6 +244,7 @@ body {
 
 #disqus_thread {
     width: 600px;
+    margin: 0 auto;
 }
 #disqus_thread h3 {
     color: white;
@@ -252,4 +253,10 @@ body {
 #disqus_thread a {
     color: white;
     font-size: 10px;
+}
+.dsq-like-activity {
+    color: white;
+}
+.dsq-brlink {
+    color: white;
 }
