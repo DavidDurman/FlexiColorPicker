@@ -102,10 +102,11 @@
 
 .cp-fancy {
     padding: 15px;
-    background-color: #FFF500;
+    background-color: #C5F7EA;
     float: left;
     border-radius: 15px;
     width: 240px;
+    box-shadow: 0 0 40px black;
 }
 .cp-fancy .picker {
     width: 200px;
@@ -119,9 +120,13 @@
     margin-left: 10px;
 }
 .cp-fancy .picker-indicator {
-    max-width: 25px;
+    width: 24px;
+    height: 24px;
+    background-image: url(http://cdn1.iconfinder.com/data/icons/fugue/bonus/icons-24/target.png);
 }
 .cp-fancy .slide-indicator {
-    max-width: 30px;
+    width: 30px;
+    height: 31px;
     left: 30px;
+    background-image: url(http://cdn1.iconfinder.com/data/icons/bluecoral/Left.png);
 }

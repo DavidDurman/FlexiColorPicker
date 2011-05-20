@@ -102,19 +102,19 @@
         <p>
             Flexi color picker allows you to set indicators - elements indicating the currently
             selected color. Following the Flexi color picker philosophy, there is no built-in images
-            for the indicators. Instead, user has a freedom to use any element he wants. It could
+            for the indicators. Instead, user has freedom to use any element he wants. It could
             be an <em>img</em> tag, <em>div</em> tag or any other object which can then
             be styled in CSS the usual way.</p>
         <p>
-            The user is expected to create a wrapper around the picker/slide and the picker/slide indicator.
-            The wrapper has to be positioned element (in CSS: position relative/absolute/fixed).
-            The <em>ColorPicker</em> passes position of the indicators as arguments into
+            The user is expected to create a wrapper around the picker and picker indicator and another wrapper for the slide and slide indicator.
+            The wrapper has to be a positioned element (in CSS: position relative/absolute/fixed).
+            The <em>ColorPicker</em> passes coordinates of the indicators as arguments into
             the <em>callback</em>. The user can therefore set the left/top coordinate
             of an indicator inside the callback (assuming the indicator is absolutely positioned).
         </p>
         <p>
-            As the common usage is assumed to set the indicator center to the indicator
-            position, the ColorPicker provides a helper function to do that to save the user's typing.
+            As the common usage is to center the indicator around the indicator
+            position, the ColorPicker provides a helper function to do that to save the user from typing.
             See below an example and implementation of the helper for the curious ones.
         </p>
         <pre>
@@ -163,21 +163,19 @@
             &lt;/script&gt;
         </pre>
         <h4>Implementation of the <em>ColorPicker.positionIndicators</em></h4>
-        <p>Below is an implementation of the positioning helper just to get
-        the idea about the positioning of the indicators and also to show
-        that it is not necessary to use the helper if you want to customized
-        the behaviour and do it completely differently.</p>
+        <p>Note that it is not necessary to use the helper to position the indicators.
+            As you can see below the implementation is straigtforward.
         <pre>
-            ColorPicker.positionIndicators = function(slideIndicator, pickerIndicator, mouseSlide, mousePicker) {
-                if (mouseSlide) {
+            ColorPicker.positionIndicators = function(slideIndicator, pickerIndicator, slideIndicatorPosition, pickerIndicatorPosition) {
+                if (slideIndicatorPosition) {
                     pickerIndicator.style.left = '';    // reset the left coordinate
                     pickerIndicator.style.top = '0px';
                     pickerIndicator.style.right = '0px';
-                    slideIndicator.style.top = (mouseSlide.y - slideIndicator.offsetHeight/2) + 'px';
+                    slideIndicator.style.top = (slideIndicatorPosition.y - slideIndicator.offsetHeight/2) + 'px';
                 }
-                if (mousePicker) {
-                    pickerIndicator.style.top = (mousePicker.y - pickerIndicator.offsetHeight/2) + 'px';
-                    pickerIndicator.style.left = (mousePicker.x - pickerIndicator.offsetWidth/2) + 'px';
+                if (pickerIndicatorPosition) {
+                    pickerIndicator.style.top = (pickerIndicatorPosition.y - pickerIndicator.offsetHeight/2) + 'px';
+                    pickerIndicator.style.left = (pickerIndicatorPosition.x - pickerIndicator.offsetWidth/2) + 'px';
                 } 
             };
         </pre>

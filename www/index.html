@@ -6,6 +6,7 @@
     <meta name="keywords" content="javascript, color picker, VML, SVG, HTML">
     <meta name="description" content="Flexi ColorPicker is a pure JavaScript color picker without using flash, images, external libraries, CSS or 1px divs. Only 4.3KB minified.">
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/themes.css"/>
     <link href='http://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Miltonian+Tattoo' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="js/colorpicker.min.js"></script>
@@ -27,7 +28,7 @@
   </head>
   <body>
     <div id="header">
-        <h1><span class="f">F</span><span class="l">l</span><span class="e">e</span><span class="x">x</span><span class="i">i</span><span class="color">Color</span><span class="picker">Picker</span></h1>
+        <h1><span class="f">F</span><span class="l">l</span><span class="e">e</span><span class="x">x</span><span class="i">i</span><span class="color">Color</span><span class="picker-header">Picker</span></h1>
         <p>No flash, images, external libraries, CSS or 1px divs. Only 4.3KB minified.</p>
     </div>
 
@@ -60,27 +61,42 @@
             </pre>
             <span class="end-mark">/&gt;</span>
         </div>
-        <div id="color-picker-wrapper">
-            <div id="picker-wrapper">
-                <div id="picker"></div>
-                <div id="picker-indicator"></div>
+        <div id="color-picker" class="cp-default">
+            <div class="picker-wrapper">
+                <div id="picker" class="picker"></div>
+                <div id="picker-indicator" class="picker-indicator"></div>
             </div>
-            <div id="slide-wrapper">
-                <div id="slide"></div>
-                <div id="slide-indicator"></div>
+            <div class="slide-wrapper">
+                <div id="slide" class="slide"></div>
+                <div id="slide-indicator" class="slide-indicator"></div>
             </div>
-            <div id="browsers">
-                <img src="img/firefox.png"/><span>FF 3.5+</span><br/>
-                <img src="img/chrome.png"/><span>Chrome 4+</span><br/>
-                <img src="img/ie7.png"/><span>IE 7</span><br/>
-                <img src="img/ie8.png"/><span>IE 8</span><br/>
-                <img src="img/ie8.png"/><span>IE 9</span><br/>
-                <img src="img/safari.png"/><span>Safari 4+</span><br/>
-                <img src="img/opera.png"/><span>Opera 9+</span><br/>
-                <img src="img/opera.png"/><span>Opera Mobile 11</span><br/>
-                <img src="img/opera.png"/><span>Opera Mini (partially)</span><br/>
-                <img src="img/safari-ios.png"/><span>Safari iOS</span>
-            </div>
+        </div>
+        <div id="browsers">
+            <img src="img/firefox.png"/><span>FF 3.5+</span><br/>
+            <img src="img/chrome.png"/><span>Chrome 4+</span><br/>
+            <img src="img/ie7.png"/><span>IE 7</span><br/>
+            <img src="img/ie8.png"/><span>IE 8</span><br/>
+            <img src="img/ie8.png"/><span>IE 9</span><br/>
+            <img src="img/safari.png"/><span>Safari 4+</span><br/>
+            <img src="img/opera.png"/><span>Opera 9+</span><br/>
+            <img src="img/opera.png"/><span>Opera Mobile 11</span><br/>
+            <img src="img/opera.png"/><span>Opera Mini (partially)</span><br/>
+            <img src="img/safari-ios.png"/><span>Safari iOS</span>
+        </div>
+        <div id="theme-selector">
+            <script type="text/javascript">
+                var skins = ['cp-default', 'cp-fancy', 'cp-small'], current = 0, currentColor,
+                    c = document.getElementById('color-picker'), cp;
+                function nextSkin() { 
+                    c.className = skins[current = (current + 1) % skins.length];
+                    currentColor && cp.setHex(currentColor);
+                };
+                function previousSkin() { 
+                    c.className = skins[current = (skins.length - -(current-1)) % skins.length]; 
+                    currentColor && cp.setHex(currentColor);
+                };
+            </script>
+            <a href="#" onclick="previousSkin();">&lt;&nbsp;previous skin</a><a href="#" onclick="nextSkin();">next skin&nbsp;&gt;</a>
         </div>
         <ul id="color-values">
             <li><label>RGB:</label><span id="rgb">rgb(255,0,0)</span></li>
@@ -88,8 +104,9 @@
             <li><label>HEX:</label><span id="hex">#FF0000</span></li>
         </ul>
         <script type="text/javascript">
-            ColorPicker(document.getElementById('slide'), document.getElementById('picker'), 
+            cp = ColorPicker(document.getElementById('slide'), document.getElementById('picker'), 
                 function(hex, hsv, rgb, mousePicker, mouseSlide) {
+                    currentColor = hex;
                     ColorPicker.positionIndicators(
                         document.getElementById('slide-indicator'),
                         document.getElementById('picker-indicator'),
@@ -100,6 +117,7 @@
                     document.getElementById('rgb').innerHTML = 'rgb(' + rgb.r.toFixed() + ',' + rgb.g.toFixed() + ',' + rgb.b.toFixed() + ')';
                     document.getElementById('hsv').innerHTML = 'hsv(' + hsv.h.toFixed() + ',' + hsv.s.toFixed(2) + ',' + hsv.v.toFixed(2) + ')';
             });
+            cp.setHex('#D4EDFB');
         </script>
         <br class="clear"/>
     </div>
