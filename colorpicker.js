@@ -278,9 +278,9 @@
      */
     ColorPicker.positionIndicators = function(slideIndicator, pickerIndicator, mouseSlide, mousePicker) {
         if (mouseSlide) {
-            pickerIndicator.style.left = '';
-            pickerIndicator.style.top = '0px';
+            pickerIndicator.style.left = 'auto';
             pickerIndicator.style.right = '0px';
+            pickerIndicator.style.top = '0px';
             slideIndicator.style.top = (mouseSlide.y - slideIndicator.offsetHeight/2) + 'px';
         }
         if (mousePicker) {
