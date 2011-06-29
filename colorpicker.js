@@ -113,6 +113,7 @@
 
     /**
      * Convert HSV representation to RGB HEX string.
+     * Credits to http://www.raphaeljs.com
      */
     function hsv2rgb(h, s, v) {
         var R, G, B, X, C;
@@ -135,6 +136,7 @@
     /**
      * Convert RGB representation to HSV.
      * r, g, b can be either in <0,1> range or <0,255> range.
+     * Credits to http://www.raphaeljs.com
      */
     function rgb2hsv(r, g, b) {
         if (r > 1 || g > 1 || b > 1) {
