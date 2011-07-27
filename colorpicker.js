@@ -20,8 +20,8 @@
             return { x: evt.offsetX, y: evt.offsetY };
         }
         // Firefox:
-        var box = evt.target.getBoundingClientRect();
-        return { x: evt.pageX - box.left, y: evt.pageY - box.top };
+        var wrapper = evt.target.parentNode.parentNode;
+        return { x: evt.layerX - wrapper.offsetLeft, y: evt.layerY - wrapper.offsetTop };
     }
 
     /**
