@@ -165,6 +165,7 @@
             evt = evt || window.event;
             var mouse = mousePosition(evt);
             ctx.h = mouse.y / slideElement.offsetHeight * 360 + hueOffset;
+            ctx.s = ctx.v = 1;
             var c = hsv2rgb(ctx.h, 1, 1);
             pickerElement.style.backgroundColor = c.hex;
             ctx.callback && ctx.callback(c.hex, { h: ctx.h - hueOffset, s: ctx.s, v: ctx.v }, { r: c.r, g: c.g, b: c.b }, undefined, mouse);
