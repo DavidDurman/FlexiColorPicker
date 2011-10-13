@@ -272,6 +272,9 @@
         setColor(this, rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
     };
 
+    ColorPicker.hsv2rgb = hsv2rgb;
+    ColorPicker.rgb2hsv = rgb2hsv;
+
     /**
      * Helper to position indicators.
      * @param {HTMLElement} slideIndicator DOM element representing the indicator of the slide area.
