@@ -148,7 +148,7 @@
         V = Math.max(r, g, b);
         C = V - Math.min(r, g, b);
         H = (C == 0 ? null :
-             V == r ? (g - b) / C :
+             V == r ? (g - b) / C + (g < b ? 6 : 0) :
              V == g ? (b - r) / C + 2 :
                       (r - g) / C + 4);
         H = (H % 6) * 60;
