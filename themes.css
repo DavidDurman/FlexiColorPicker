@@ -9,6 +9,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    pointer-events: none;
 }
 .picker,
 .slide {
@@ -101,11 +102,12 @@
 /* Fancy skin */
 
 .cp-fancy {
-    padding: 15px;
-    background-color: #C5F7EA;
+    padding: 10px;
+/*    background-color: #C5F7EA; */
+    background: -webkit-linear-gradient(top, #aaa 0%, #222 100%);   
     float: left;
-    border-radius: 15px;
-    box-shadow: 0 0 40px black;
+    border: 1px solid #999;
+    box-shadow: inset 0 0 10px white;
 }
 .cp-fancy .picker {
     width: 200px;
@@ -128,4 +130,48 @@
     height: 31px;
     left: 30px;
     background-image: url(http://cdn1.iconfinder.com/data/icons/bluecoral/Left.png);
+}
+
+/* Normal skin */
+
+.cp-normal {
+    padding: 10px;
+    background-color: white;
+    float: left;
+    border: 4px solid #d6d6d6;
+    box-shadow: inset 0 0 10px white;
+}
+.cp-normal .picker {
+    width: 200px;
+    height: 200px;
+}
+.cp-normal .slide {
+    width: 30px;
+    height: 200px;
+}
+.cp-normal .slide-wrapper {
+    margin-left: 10px;
+}
+.cp-normal .picker-indicator {
+    width: 5px;
+    height: 5px;
+    border: 1px solid gray;
+    opacity: .5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    filter: alpha(opacity=50);
+    background-color: white;
+    pointer-events: none;
+}
+.cp-normal .slide-indicator {
+    width: 100%;
+    height: 10px;
+    left: -4px;
+    opacity: .6;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+    filter: alpha(opacity=60);
+    border: 4px solid gray;
+    background-color: white;
+    pointer-events: none;
 }
