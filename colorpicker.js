@@ -261,13 +261,14 @@
             // Generate uniq IDs for linearGradients so that we don't have the same IDs within one document.
             // Then reference those gradients in the associated rectangles.
             
-            var hsvGradient = slide.getElementsByTagName('linearGradient')[0];
+            var hsvGradient = slide.getElementById('gradient-hsv');
+            
             var hsvRect = slide.getElementsByTagName('rect')[0];
             
             hsvGradient.id = 'gradient-hsv-' + uniqID;
             hsvRect.setAttribute('fill', 'url(#' + hsvGradient.id + ')');
 
-            var blackAndWhiteGradients = picker.getElementsByTagName('linearGradient');
+            var blackAndWhiteGradients = [picker.getElementById('gradient-black'), picker.getElementById('gradient-white')];
             var whiteAndBlackRects = picker.getElementsByTagName('rect');
             
             blackAndWhiteGradients[0].id = 'gradient-black-' + uniqID;
