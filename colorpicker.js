@@ -260,16 +260,19 @@
 
             // Generate uniq IDs for linearGradients so that we don't have the same IDs within one document.
             // Then reference those gradients in the associated rectangles.
+
+            var slideClone = slide.cloneNode(true);
+            var pickerClone = picker.cloneNode(true);
             
-            var hsvGradient = slide.getElementById('gradient-hsv');
+            var hsvGradient = slideClone.getElementById('gradient-hsv');
             
-            var hsvRect = slide.getElementsByTagName('rect')[0];
+            var hsvRect = slideClone.getElementsByTagName('rect')[0];
             
             hsvGradient.id = 'gradient-hsv-' + uniqID;
             hsvRect.setAttribute('fill', 'url(#' + hsvGradient.id + ')');
 
-            var blackAndWhiteGradients = [picker.getElementById('gradient-black'), picker.getElementById('gradient-white')];
-            var whiteAndBlackRects = picker.getElementsByTagName('rect');
+            var blackAndWhiteGradients = [pickerClone.getElementById('gradient-black'), pickerClone.getElementById('gradient-white')];
+            var whiteAndBlackRects = pickerClone.getElementsByTagName('rect');
             
             blackAndWhiteGradients[0].id = 'gradient-black-' + uniqID;
             blackAndWhiteGradients[1].id = 'gradient-white-' + uniqID;
@@ -277,8 +280,8 @@
             whiteAndBlackRects[0].setAttribute('fill', 'url(#' + blackAndWhiteGradients[1].id + ')');
             whiteAndBlackRects[1].setAttribute('fill', 'url(#' + blackAndWhiteGradients[0].id + ')');
 
-            this.slideElement.appendChild(slide.cloneNode(true));
-            this.pickerElement.appendChild(picker.cloneNode(true));
+            this.slideElement.appendChild(slideClone);
+            this.pickerElement.appendChild(pickerClone);
 
             uniqID++;
             
