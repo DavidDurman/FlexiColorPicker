@@ -390,8 +390,8 @@
     };
 
     /**
-     * Sets color of the picker in rgb format.
-     * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
+     * Sets color of the picker in hsv format.
+     * @param {object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
      */
     ColorPicker.prototype.setHsv = function(hsv) {
         return setColor(this, hsv);
